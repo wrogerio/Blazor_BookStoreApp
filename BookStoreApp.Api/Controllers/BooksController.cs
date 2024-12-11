@@ -3,6 +3,7 @@ using AutoMapper.QueryableExtensions;
 using BookStoreApp.Api.Data;
 using BookStoreApp.Api.Models.Book;
 using BookStoreApp.Api.Static;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -10,6 +11,7 @@ namespace BookStoreApp.Api.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]
+[Authorize]
 public class BooksController : ControllerBase
 {
     private readonly BookStoreContext _context;

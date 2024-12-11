@@ -1,6 +1,8 @@
-@BookStoreApp.Api_HostAddress = http://localhost:5122
+@BookStoreApp.Api_HostAddress = https://localhost:7107/api
+@BookStoreApp.Api_AccessToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InVzZXJAZXhhbXBsZS5jb20iLCJqdGkiOiJiOWM0NDUzMS00NTM4LTRjOWMtYWM5Mi03M2YxMDZlOWRmZmMiLCJ1aWQiOiI5MTViMWY0MC0wOTFhLTRlNjgtYmZlOC0wNzI2NTE2ZGEzNTciLCJlbWFpbCI6InVzZXJAZXhhbXBsZS5jb20iLCJyb2xlIjoiVXNlciIsImV4cCI6MTczMzk1MjAzMywiaXNzIjoiQm9va1N0b3JlQXBpIiwiYXVkIjoiQm9va1N0b3JlQXBpQ2xpZW50In0.ooYsAoFCMDiBcs90pb9Ea07ysDMv2MBe_mF-okLmf28
 
-GET {{BookStoreApp.Api_HostAddress}}/weatherforecast/
+GET {{BookStoreApp.Api_HostAddress}}/authors
 Accept: application/json
+Authorization: Bearer {{BookStoreApp.Api_AccessToken}}
 
 ###

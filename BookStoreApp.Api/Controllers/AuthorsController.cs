@@ -2,6 +2,7 @@
 using BookStoreApp.Api.Data;
 using BookStoreApp.Api.Models.Author;
 using BookStoreApp.Api.Static;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -9,6 +10,7 @@ namespace BookStoreApp.Api.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]
+[Authorize]
 public class AuthorsController : ControllerBase
 {
     private readonly BookStoreContext _context;
