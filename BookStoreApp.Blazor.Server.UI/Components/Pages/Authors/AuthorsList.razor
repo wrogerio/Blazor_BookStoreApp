@@ -1,0 +1,62 @@
+﻿@page "/authors"
+
+@attribute [Authorize]
+@inject IAuthorService _http
+
+<h3>Authors List</h3>
+
+@if (response.Success == false)
+{
+    <div class="alert alert-danger">
+        <h4>@response.Message</h4>
+    </div>
+}
+else
+{
+    @if (model == null)
+    {
+        <div class="alert alert-info">
+            <h4>Loading Data...</h4>
+        </div>
+    }
+    else
+    {
+        <a href="/authors/create" class="btn btn-primary">Create New Author</a>
+
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>FirstName</th>
+                    <th>LastName</th>
+                    <th>Bio</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var author in model)
+                {
+                    <tr>
+                        <td>@author.Id</td>
+                        <td>@author.FirstName</td>
+                        <td>@author.LastName</td>
+                        <td>@author.Bio</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+}
+
+@code {
+    private List<AuthorReadOnlyDto> model = new List<AuthorReadOnlyDto>();
+    Response<List<AuthorReadOnlyDto>> response = new Response<List<AuthorReadOnlyDto>> { Success = true };
+
+    protected override async Task OnInitializedAsync()
+    {
+        response = await _http.GetAuthors();
+        if (response.Success)
+        {
+            model = response.Data;
+        }
+    }
+}

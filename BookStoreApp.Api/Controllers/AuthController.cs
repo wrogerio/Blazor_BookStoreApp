@@ -115,6 +115,7 @@ public class AuthController : ControllerBase
             new Claim(CustomClaimTypes.JTI, Guid.NewGuid().ToString()),
             new Claim(CustomClaimTypes.Uid, user.Id),
             new Claim(CustomClaimTypes.Email, user.Email!),
+            new Claim(ClaimTypes.Name, user.Email!),
         };
 
         var roles = await _userManager.GetRolesAsync(user);

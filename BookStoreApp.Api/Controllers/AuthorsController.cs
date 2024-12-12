@@ -114,7 +114,7 @@ public class AuthorsController : ControllerBase
             await _context.Authors.AddAsync(author);
             await _context.SaveChangesAsync();
             _logger.LogInformation($"POST request for author completed. - {nameof(PostAuthor)}");
-            return CreatedAtAction(nameof(GetAuthor), new { id = author.Id }, author);
+            return Ok(author);
         }
         catch (Exception ex)
         {
