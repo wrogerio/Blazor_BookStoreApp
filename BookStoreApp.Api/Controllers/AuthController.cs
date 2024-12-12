@@ -95,7 +95,7 @@ public class AuthController : ControllerBase
                 Email = user.Email!
             };
 
-            return Accepted(response);
+            return Ok(response);
         }
         catch (Exception ex)
         {

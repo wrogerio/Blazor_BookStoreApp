@@ -1,0 +1,75 @@
+﻿@page "/users/register"
+@inject IClient _client
+@inject NavigationManager _navigation
+
+<h3>Register New Account</h3>
+
+@if (!string.IsNullOrEmpty(message))
+{
+    <div class="alert alert-danger">
+        <p>@message</p>
+    </div>
+}
+<div>
+    <EditForm Model="RegistrationModel" OnSubmit="HandleSubmit" FormName="Starship1">
+        <DataAnnotationsValidator />
+        <ValidationSummary />
+        <div class="row mb-2">
+            <div class="col-12 col-sm-6">
+                <div class="form-group">
+                    <label for="email"></label>
+                    <InputText @bind-Value="RegistrationModel.Email" class="form-control" id="email" placeholder="Email" />
+                </div>
+            </div>
+            <div class="col-12 col-sm-6">
+                <div class="form-group">
+                    <label for="password"></label>
+                    <InputText @bind-Value="RegistrationModel.Password" type="Password" class="form-control" id="password" placeholder="Password" />
+                </div>
+            </div>
+            <div class="col-12 col-sm-6">
+                <div class="form-group">
+                    <label for="apelido"></label>
+                    <InputText @bind-Value="RegistrationModel.Apelido" class="form-control" id="apelido" placeholder="Apelido" />
+                </div>
+            </div>
+            <div class="col-12 col-sm-6">
+                <div class="form-group">
+                    <label for="role"></label>
+                    <InputSelect @bind-Value="RegistrationModel.Role" class="form-control" id="role">
+                        <option value="User">User</option>
+                        <option value="Admin">Admin</option>
+                    </InputSelect>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-6">
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </div>
+        </div>
+    </EditForm>
+</div>
+
+@code {
+    [SupplyParameterFromForm]
+    private UserDto RegistrationModel { get; set; } = new UserDto();
+    private string message = string.Empty;
+
+    private async Task HandleSubmit()
+    {
+        try
+        {
+            await _client.RegisterAsync(RegistrationModel);
+            _navigation.NavigateTo("/users/login");
+        }
+        catch (ApiException ex)
+        {
+            if (ex.StatusCode >= 200 && ex.StatusCode <= 299)
+            {
+                _navigation.NavigateTo("/users/login");
+            }
+            message = ex.Response;
+        }
+    }
+}

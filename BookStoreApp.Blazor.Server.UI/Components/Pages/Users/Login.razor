@@ -1,0 +1,66 @@
+﻿@page "/users/login"
+@using BookStoreApp.Blazor.Server.UI.Providers
+@using Microsoft.AspNetCore.Components.Authorization
+@inject IAuthenticationService _client
+@inject NavigationManager _navigation
+@inject ILogger<Login> _logger
+
+<h3>Log In</h3>
+
+@if (!string.IsNullOrEmpty(message))
+{
+    <div class="alert alert-danger">
+        <p>@message</p>
+    </div>
+}
+<div>
+    <EditForm Model="LoginModel" OnSubmit="HandleSubmit" FormName="Starship1">
+        <DataAnnotationsValidator />
+        <ValidationSummary />
+        <div class="row mb-2">
+            <div class="col-12 col-sm-6">
+                <div class="form-group">
+                    <label for="email"></label>
+                    <InputText @bind-Value="LoginModel.Email" class="form-control" id="email" placeholder="Email" />
+                </div>
+            </div>
+            <div class="col-12 col-sm-6">
+                <div class="form-group">
+                    <label for="password"></label>
+                    <InputText @bind-Value="LoginModel.Password" type="Password" class="form-control" id="password" placeholder="Password" />
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-6">
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </div>
+        </div>
+    </EditForm>
+</div>
+
+@code {
+    [SupplyParameterFromForm]
+    private LoginUserDto LoginModel { get; set; } = new LoginUserDto { Email = "user@user.com", Password = "usr123456" };
+    private string message = string.Empty;
+
+    private async Task HandleSubmit()
+    {
+        try
+        {
+            bool res = await _client.AuthenticateAsync(LoginModel);
+            if (res)
+            {
+                _navigation.NavigateTo("/");
+            }
+            else
+            {
+                message = "Invalid email or password";
+            }
+        }
+        catch (ApiException ex)
+        {
+            message = ex.Response;
+        }
+    }
+}
